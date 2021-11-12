@@ -1,10 +1,16 @@
+/// importing packages and files
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:talawa/models/organization/org_info.dart';
 
+/// user_info.g.dart' will be split and its private members 
+/// are accessible for all code within the files 
 part 'user_info.g.dart';
 
+/// HiveType can be used to keep track of old field Ids which must not be reused.
 @HiveType(typeId: 1)
+
+/// The user class extends HiveObject
 class User extends HiveObject {
   User(
       {this.adminFor,
@@ -19,6 +25,7 @@ class User extends HiveObject {
       this.refreshToken,
       this.membershipRequests});
 
+  /// Returns an instance of an user
   factory User.fromJson(Map<String, dynamic> json1, {bool fromOrg = false}) {
     Map<String, dynamic> json;
     if (fromOrg) {
@@ -58,6 +65,7 @@ class User extends HiveObject {
             : null);
   }
 
+  /// Output User Details
   print() {
     debugPrint('authToken: ${this.authToken}');
     debugPrint('refreshToken: ${this.refreshToken}');
@@ -94,24 +102,30 @@ class User extends HiveObject {
   List<OrgInfo>? adminFor = [];
   @HiveField(10)
   List<OrgInfo>? membershipRequests = [];
-
+  
+  /// Update the list of organizations joined by the user
   updateJoinedOrg(List<OrgInfo> orgList) {
     this.joinedOrganizations = orgList;
   }
-
+  /// update the list of organizations created by the user
   updateCreatedOrg(List<OrgInfo> orgList) {
     this.createdOrganizations = orgList;
   }
 
+  /// update the list of membership requests for an organizations
   updateMemberRequestOrg(List<OrgInfo> orgList) {
     this.membershipRequests = [...membershipRequests!, ...orgList];
   }
-
+  
+  /// update admin for the orgnaization
   updateAdminFor(List<OrgInfo> orgList) {
     this.adminFor = orgList;
   }
 
+  /// Update user details
   update(User details) {
+
+    /// errors in the lines below check to see if the attributes are assigned correctly
     this.firstName = details.firstName;
     this.lastName = details.firstName;
     this.email = details.firstName;
